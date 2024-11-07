@@ -6,10 +6,22 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "email": "a"
+  "username": "user1",
+  "email": "user1@example.com",
+  "firstName": "User",
+  "lastName": "One",
+  "password": "password"
 }
 
 ### GET user by id
-GET http://localhost:8080/users/details/1
+GET http://localhost:8080/users/profile/user0
 Content-Type: application/json
+
+### POST login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "password"
+}

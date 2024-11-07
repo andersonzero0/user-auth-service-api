@@ -9,6 +9,7 @@ public record UserResponseDTO(
         String email,
         String firstName,
         String lastName,
+        String fullName,
         String avatarUrl,
         LocalDateTime createdAt
 ) {
@@ -18,6 +19,7 @@ public record UserResponseDTO(
                 userEntity.getEmail(),
                 userEntity.getFirstName(),
                 userEntity.getLastName(),
+                userEntity.getFirstName() + " " + userEntity.getLastName(),
                 userEntity.getAvatarUrl(),
                 userEntity.getCreatedAt()
         );

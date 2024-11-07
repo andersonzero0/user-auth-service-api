@@ -29,9 +29,9 @@ public class UserController {
         return users.stream().map(UserResponseDTO::new).toList();
     }
 
-    @GetMapping("details/{id}")
-    public UserResponseDTO findUserById(@PathVariable String id) {
-        var user = userService.findById(id);
+    @GetMapping("profile/{username}")
+    public UserResponseDTO findUserByUsername(@PathVariable String username) {
+        var user = userService.findByUsername(username);
 
         if (user == null) {
             throw new UserNotFoundException("User not found");

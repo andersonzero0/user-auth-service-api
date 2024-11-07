@@ -1,5 +1,6 @@
 package com.andersonzero0.userauthservice.infra;
 
+import com.andersonzero0.userauthservice.exceptions.UserAlreadyExistsException;
 import com.andersonzero0.userauthservice.exceptions.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +34,16 @@ public class RestExceptionHandler {
     public ResponseEntity<RestErrorMessage> handleUserNotFound(UserNotFoundException ex) {
         RestErrorMessage threatResponse = new RestErrorMessage(
                 HttpStatus.NOT_FOUND,
+                ex.getMessage(),
+                null);
+
+        return new ResponseEntity<>(threatResponse, new HttpHeaders(), threatResponse.getStatus());
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<RestErrorMessage> handleUserAlreadyExists(UserAlreadyExistsException ex) {
+        RestErrorMessage threatResponse = new RestErrorMessage(
+                HttpStatus.CONFLICT,
                 ex.getMessage(),
                 null);
 
