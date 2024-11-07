@@ -1,0 +1,15 @@
+### GET all users
+GET http://localhost:8080/users
+
+### POST new user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "a"
+}
+
+### GET user by id
+GET http://localhost:8080/users/details/1
+Content-Type: application/json
