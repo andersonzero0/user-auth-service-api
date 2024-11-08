@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.naming.AuthenticationException;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +45,16 @@ public class RestExceptionHandler {
     public ResponseEntity<RestErrorMessage> handleUserAlreadyExists(UserAlreadyExistsException ex) {
         RestErrorMessage threatResponse = new RestErrorMessage(
                 HttpStatus.CONFLICT,
+                ex.getMessage(),
+                null);
+
+        return new ResponseEntity<>(threatResponse, new HttpHeaders(), threatResponse.getStatus());
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<RestErrorMessage> handleAuthenticationException(AuthenticationException ex) {
+        RestErrorMessage threatResponse = new RestErrorMessage(
+                HttpStatus.UNAUTHORIZED,
                 ex.getMessage(),
                 null);
 

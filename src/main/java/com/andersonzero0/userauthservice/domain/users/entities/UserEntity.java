@@ -1,6 +1,7 @@
 package com.andersonzero0.userauthservice.domain.users.entities;
 
 import com.andersonzero0.userauthservice.domain.users.dtos.RegisterUserDTO;
+import com.andersonzero0.userauthservice.domain.users.dtos.UpdateUserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -60,6 +61,14 @@ public class UserEntity implements UserDetails {
         this.firstName = registerUserDTO.firstName();
         this.lastName = registerUserDTO.lastName();
         this.password = registerUserDTO.password();
+    }
+
+    public UserEntity(UpdateUserDTO updateUserDTO) {
+        this.email = updateUserDTO.email();
+        this.username = updateUserDTO.username();
+        this.firstName = updateUserDTO.firstName();
+        this.lastName = updateUserDTO.lastName();
+        this.password = updateUserDTO.password();
     }
 
     @Override

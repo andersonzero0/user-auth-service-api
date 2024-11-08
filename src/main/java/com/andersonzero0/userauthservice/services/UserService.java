@@ -3,6 +3,7 @@ package com.andersonzero0.userauthservice.services;
 import com.andersonzero0.userauthservice.domain.users.entities.UserEntity;
 import com.andersonzero0.userauthservice.domain.users.repositories.UserRepository;
 import com.andersonzero0.userauthservice.exceptions.UserAlreadyExistsException;
+import com.andersonzero0.userauthservice.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +35,10 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public UserEntity findUserById(String id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
     }
@@ -44,5 +49,36 @@ public class UserService {
 
     public List<UserEntity> findAll() {
         return userRepository.findAll();
+    }
+
+    public UserEntity updateUser(UserEntity user) {
+        UserEntity existingUser = findUserById(user.getId());
+
+        if (existingUser == null) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        if (user.getEmail() != null) {
+            existingUser.setEmail(user.getEmail());
+        }
+
+        if (user.getUsername() != null) {
+            existingUser.setUsername(user.getUsername());
+        }
+
+        if (user.getFirstName() != null) {
+            existingUser.setFirstName(user.getFirstName());
+        }
+
+        if (user.getLastName() != null) {
+            existingUser.setLastName(user.getFirstName());
+        }
+
+        if (user.getPassword() != null) {
+            String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+            existingUser.setPassword(encryptedPassword);
+        }
+
+        return userRepository.save(existingUser);
     }
 }
